@@ -22,7 +22,7 @@
 </div>
 <br>
 <h2 style="color:white;">Polls: </h2>
-<a href="{% url 'poll_form' %}">Create a new poll</a>
+<a href="{% url 'polls_create' %}">Create a new poll</a>
 <form action="" method="POST">
     {% csrf_token %}
     <div class="row">

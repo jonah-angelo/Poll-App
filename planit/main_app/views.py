@@ -127,9 +127,9 @@ class PollCreate(CreateView):
     model = Poll
     fields = ['question', 'choice_one', 'choice_two', 'choice_three']
 
-    # def form_valid(self, form):
-    #     form.instance.user = self.request.user
-    #     return super().form_valid(form)
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
     
 
      
