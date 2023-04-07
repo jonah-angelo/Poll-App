@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from django.contrib.auth import login
@@ -33,10 +33,19 @@ def events_index(request):
 
 def events_detail(request, event_id):
     event = Event.objects.get(id=event_id)
+    poll_form=PollForm()
     return render(request, 'events/detail.html', {
-        'event': event
+        'event': event, 
+        'poll_form': poll_form
     })
 
+def add_poll(request, event_id):
+    form = PollForm(request.POST)
+    if form.is_valid():
+        new_poll = form.save(commit=False)
+        new_poll.event_id = event_id
+        new_poll.save()
+    return redirect('detail', event_id=event_id)
 
 class EventCreate(CreateView):
     model = Event
@@ -74,7 +83,11 @@ class GroupDetail(DetailView):
 
 class GroupCreate(CreateView):
     model = Group
-    fields = '__all__'
+    fields = ['name', 'members']
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
 class GroupUpdate(UpdateView):
@@ -129,14 +142,24 @@ class PollCreate(CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+<<<<<<< HEAD
         print(form.instance.user)
+=======
+>>>>>>> main
         return super().form_valid(form)
     
 
      
-class PollDetail(DetailView):
-    model = Poll
-    success_url = '/polls/'
+# class PollDetail(DetailView):
+#     model = Poll
+#     success_url = '/polls/'
+
+def polls_detail(request, poll_id):
+    poll = Poll.objects.get(id=poll_id)
+    return render(request, 'main_app/polls_detail.html', {
+        'poll': poll
+    })
+
 class PollUpdate(UpdateView):
     model = Poll
     fields = '__all__'
@@ -144,3 +167,18 @@ class PollUpdate(UpdateView):
 class PollDelete(DeleteView):
     model = Poll
     success_url = '/events/'
+
+
+def vote(request, poll_id):
+    poll = Poll.objects.get(pk=poll_id)
+    choice = request.POST.get('poll')
+    if choice == 'choice_one_count':
+        poll.choice_one_count += 1
+    elif choice == 'choice_two_count':
+        poll.choice_two_count += 1
+    elif choice == 'choice_three_count':
+        poll.choice_three_count += 1
+    poll.save()
+    return redirect('polls_detail', poll_id=poll_id)
+
+

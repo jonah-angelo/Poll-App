@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="addEventContainer">
     {% if object %}
-        <h1 class="aboutTitle">Edit {{object.name}}</h1>
+        <h1 class="addGroupTitle">Edit {{object.name}}</h1>
     {% else %}
-        <h1 class="aboutTitle">Add Group</h1>
+        <h1 class="addGroupTitle">Add <span class="it">Group</span></h1>
     {% endif %}
     <!-- Leaving the action empty makes the form post to the same url used to display it -->
     <form action="" method="POST">
@@ -16,9 +17,11 @@
         </table>
         <input type="submit" value="Submit" class="btn">
     </form>
-
-
-
-
-
+</div>
+<div class="stars">
+    <div class="stars1"></div>
+    <div class="stars2"></div>
+    <div class="stars3"></div>
+    <div class="moonGroup"></div>
+  </div>
 {% endblock %}

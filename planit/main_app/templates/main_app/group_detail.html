@@ -2,22 +2,28 @@
 
 {% block content %}
 
-<h1> Group Details </h1>
+<h1 class="myEventsTitle"> Group <span class="it">Details</span></h1>
 
 <div class="row">
-    <div class="col s6 col-offset-3">
-      <div class="card">
-        <div class="card-content">
-          <span class="card-title">{{ group.name }}</span>
-          <p>Creator: {{ request.user.username }}</p>
-        </div>
-        <div class="card-action">
-          <a href="{% url 'groups_update' group.id %}">Edit</a>
-          <a href="{% url 'groups_delete' group.id %}">Delete</a> 
-        </div>
+  <div class="col s6 col-offset-3">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">{{ group.name }}</span>
+        <p class="cardDetails">Members: {{ group.members }}</p>
+        <p class="cardDetails">Creator: {{ request.user.username }}</p>
+      </div>
+      <div class="card-action">
+        <a class="itLight" href="{% url 'groups_update' group.id %}">Edit</a>
+        <a class="deleteBtn" href="{% url 'groups_delete' group.id %}">Delete</a> 
       </div>
     </div>
   </div>
-
+</div>
+<div class="stars">
+  <div class="stars1"></div>
+  <div class="stars2"></div>
+  <div class="stars3"></div>
+  <div class="jupiter"></div>
+</div>
 
 {% endblock %}

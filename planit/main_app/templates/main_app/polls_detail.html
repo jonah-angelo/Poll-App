@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row" style="background-color: white;">
+    <h1>Cast Your Vote</h1>
+    <div class="row">
+        <h2>{{ poll.question }}</h2>
+        <div class="row">
+            <div class="col-lg-12">
+                <hr />
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="choice_one">
+                            <input type="radio" name="poll" id="choice_one" value="poll.choice_one" style="opacity:1;">
+                            {{ poll.choice_one }}
+                        </label>
+                        <br>
+                        <label for="choice_two">
+                            <input type="radio" name="poll" id="choice_two" value="poll.choice_two" style="opacity:1;">
+                            {{ poll.choice_two }}
+                        </label>
+                        <br>
+                        <label for="choice_three">
+                            <input type="radio" name="poll" id="choice_three" value="poll.choice_three"
+                                style="opacity:1;">
+                            {{ poll.choice_three }}
+                        </label>
+                    </div>
+                    <hr />
+                    <button type="submit" class="btn btn-info">
+                        Submit
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+{% endblock %}

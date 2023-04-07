@@ -1,47 +1,68 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Event Details</h1>
+<h1 class="myEventsTitle">Event <span class="it">Details</span></h1>
 
 <div class="row">
-        <div class="card">
-            <div class="card-content">
-                <span class="card-title">{{ event.name }}</span>
-                <p>Who: {{ event.who }} </p>
-                <p>What: {{ event.what }}</p>
-                <p>When: {{ event.when }} </p>
-                <p>Where: {{ event.where }} </p>
-                <p>Why: {{event.why}} </p>
-            </div>
-           <div class="card-action">
-                <a href="{% url 'events_update' event.id %}">Edit</a>
-                <a href="{% url 'events_delete' event.id %}">Delete</a>
-            </div> 
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">{{ event.name }}</span>
+            <p class="cardDetails">Who: {{ event.who }} </p>
+            <p class="cardDetails">What: {{ event.what }}</p>
+            <p class="cardDetails">When: {{ event.when }} </p>
+            <p class="cardDetails">Where: {{ event.where }} </p>
+            <p class="cardDetails">Why: {{event.why}} </p>
         </div>
+        <div class="card-action">
+            <a class="itLight" href="{% url 'events_update' event.id %}">Edit</a>
+            <a class="deleteBtn" href="{% url 'events_delete' event.id %}">Delete</a>
+        </div>
+    </div>
 
 </div>
 <br>
 <h2 style="color:white;">Polls: </h2>
 <a href="{% url 'polls_create' %}">Create a new poll</a>
-<form action="" method="POST">
-    {% csrf_token %}
-    <div class="row">
-        {% for poll in event.poll_set.all %}
-            <div class="card">
-                <div class="card-content">
-             <a href="{% url 'polls_detail' poll.id %}">Poll Details</a> 
-                   <span class="card-title">{{ poll.question }}</span>
-                    <p>Option 1:  {{ poll.choice_one }} </p>
-                    <p>Option 2: {{ poll.choice_two }} </p>
-                    <p>Option 3: {{ poll.choice_three }} </p> 
-                </div>
-                {% endfor %} 
-                <div class="card-action">
-                    <a href="{% url 'events_update' event.id %}">Edit</a>
-                    <a href="{% url 'events_delete' event.id %}">Delete</a>
-                </div>  \
-            </div>
+<div class="row">
+    <div class="col s6">
+        <p>Add Poll</p>
+        <form action="{% url 'add_poll' event.id %}" method="POST">
+            {% csrf_token %}
+            <!-- Render the inputs -->
+            {{ poll_form.as_p }}
+            <input type="submit" class="btn" value="Add Poll">
+        </form>
+
     </div>
-</form>
+    <div class="col s6">
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div>
+                {% for poll in event.poll_set.all %}
+
+                <div class="card">
+                    <div class="card-content">
+                        <a href="{% url 'polls_detail' poll.id %}">Poll Details</a>
+                        <span class="card-title">{{ poll.question }}</span>
+                        <p>{{ poll.choice_one }}: <Span> {{ poll.choice_one_count }} votes</Span></p><input
+                            type="submit" class="btn" value="Vote">
+                        <p>{{ poll.choice_two }}: <Span> {{ poll.choice_two_count }} votes</Span></p>
+                        <input type="submit" class="btn" value="Vote">
+                        <p>{{ poll.choice_three }}: <Span> {{ poll.choice_three_count }} votes</Span></p>
+                        <input type="submit" class="btn" value="Vote">
+                    </div>
+
+                    <div class="card-action">
+                        <a href="{% url 'events_update' event.id %}">Edit</a>
+                        <a href="{% url 'events_delete' event.id %}">Delete</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </form>
+    </div>
+
+</div>
+
 
 {% endblock %}

@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<<<<<<< HEAD
     {% if object%}
         <h1 class="aboutTitle">Edit {{ object.name }}</h1>
     {% else %}
@@ -19,6 +20,31 @@
     <input type="submit" value="Submit" class="btn">
   </form>
 
+=======
+<div class="addEventContainer">
+  {% if object%}
+      <h1 class="addEventTitle">Edit <span class="it">{{ object.name }}</span></h1>
+  {% else %}
+      <h1 class="addEventTitle">Add an <span class="it">Event</span></h1>
+  {% endif %}
+<!-- Leaving the action empty makes the form post to the same url used to display it -->
+<form action="" method="POST">
+  <!-- Django requires the following for security purposes -->
+  {% csrf_token %}
+  <table>
+    <!-- Render the inputs inside of <tr>s & <td>s -->
+    {{ form.as_table }}
+  </table>
+  <input type="submit" value="Submit" class="btn">
+</form>
+</div>
+<div class="stars">
+  <div class="stars1"></div>
+  <div class="stars2"></div>
+  <div class="stars3"></div>
+  <div class="mars"></div>
+</div>
+>>>>>>> main
 <script>
   const dateEl = document.getElementById('id_when');
   // M is Materialize's global variable
@@ -28,6 +54,28 @@
     setDefaultDate: true,
     autoClose: true
   });
+</script>
+
+<script>
+  $('textarea').on('paste input', function () {
+    if ($(this).outerHeight() > this.scrollHeight){
+        $(this).height(1)
+    }
+    while ($(this).outerHeight() < this.scrollHeight + parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))){
+        $(this).height($(this).height() + 1)
+    }
+  });
+
+  // autogrow textbox solution: https://stackoverflow.com/questions/4954252/css-textarea-that-expands-as-you-type-text
+  
+  // It works by measuring if the scroll height of the textarea 
+  // is bigger than the outer height, which it only will be if there's
+  // more text than the textarea can hold - and it takes border size 
+  // into account for higher accuracy. Using paste and input means it 
+  // will only increase when the user physically changes the value of 
+  // the textarea, as opposed to when they press any key. It's petty 
+  // but a textarea shouldn't grow when somebody presses an arrow key 
+  // or something.
 </script>
 
 {% endblock %}
